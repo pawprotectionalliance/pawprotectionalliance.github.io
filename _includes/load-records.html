@@ -1,0 +1,4 @@
+{%- comment -%} Loads an approved data set. Demo rows only appear while demo_mode is true. {%- endcomment -%}
+{%- assign rkey = site.data.schema[include.set].key -%}
+{%- assign records = site.data[include.set] | where_exp: "r", "r[rkey] != nil" -%}
+{%- unless site.demo_mode -%}{%- assign records = records | where_exp: "r", "r.demo != 'yes'" -%}{%- endunless -%}

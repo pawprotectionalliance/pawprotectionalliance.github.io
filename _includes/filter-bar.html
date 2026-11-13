@@ -1,0 +1,24 @@
+{%- comment -%}
+  include filter-bar.html target="bills" records=records fields="animal_category:Animal category,status:Status" label="Search legislation"
+{%- endcomment -%}
+<form class="filter-bar" data-filter-for="{{ include.target }}" role="search" onsubmit="return false">
+  <div class="filter-bar__field filter-bar__field--search">
+    <label for="{{ include.target }}-q">{{ include.label }}</label>
+    <input id="{{ include.target }}-q" type="search" data-filter-search placeholder="Keyword" autocomplete="off">
+  </div>
+  {%- assign fieldpairs = include.fields | split: "," -%}
+  {%- for pair in fieldpairs -%}
+  {%- assign kv = pair | split: ":" -%}{%- assign key = kv[0] -%}
+  {%- assign vals = include.records | map: key | uniq | sort -%}
+  <div class="filter-bar__field">
+    <label for="{{ include.target }}-{{ key }}">{{ kv[1] }}</label>
+    <select id="{{ include.target }}-{{ key }}" data-filter-key="{{ key }}">
+      <option value="">All</option>
+      {%- for v in vals %}{% if v != "" and v %}
+      <option value="{{ v | escape }}">{{ v }}</option>
+      {%- endif %}{% endfor %}
+    </select>
+  </div>
+  {%- endfor -%}
+  <p class="filter-bar__count" aria-live="polite" data-filter-count></p>
+</form>

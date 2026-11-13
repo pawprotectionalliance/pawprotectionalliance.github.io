@@ -1,0 +1,47 @@
+---
+layout: default
+---
+<article>
+  <header class="article-hero">
+    <div class="media">{% include photo.html id=page.image sizes="100vw" eager=true decorative=true %}</div>
+    <div class="wrap article-hero__content">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ '/research/' | relative_url }}">Research &amp; Awareness</a> / <span>{{ page.category }}</span></nav>
+      <p class="kicker">{{ page.category }}{% if page.demo %} &nbsp;<span class="badge badge--demo">Demo layout</span>{% endif %}</p>
+      <h1>{{ page.title }}</h1>
+      <div class="article-meta">
+        <span>Published <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></span>
+        {%- if page.revised %}<span>Revised <time datetime="{{ page.revised | date_to_xmlschema }}">{{ page.revised | date: "%B %-d, %Y" }}</time></span>{% endif %}
+        {%- if page.animals %}<span>Animals: {{ page.animals | join: ", " }}</span>{% endif %}
+      </div>
+    </div>
+    <span class="photo-credit">{% include photo-credit.html id=page.image %}</span>
+  </header>
+  <div class="section">
+    <div class="wrap two-col">
+      <div class="article-body prose">
+        {{ content }}
+        <section class="references" aria-labelledby="refs">
+          <h2 id="refs">References</h2>
+          {%- if page.references and page.references.size > 0 %}
+          <ol>
+            {%- for ref in page.references %}
+            <li>{{ ref.citation }}{% if ref.url %} <a href="{{ ref.url }}">Source</a>{% endif %}{% if ref.accessed %} (accessed {{ ref.accessed | date: "%B %-d, %Y" }}){% endif %}</li>
+            {%- endfor %}
+          </ol>
+          {%- else %}
+          <p>No references listed yet. Articles are not approved for publication until every factual claim has a verifiable source.</p>
+          {%- endif %}
+        </section>
+      </div>
+      <aside class="aside-box">
+        <h2>About this article</h2>
+        <p>{{ page.summary }}</p>
+        <p class="mini-label">Category</p>
+        <p>{{ page.category }}</p>
+        <p class="mini-label">Editorial standard</p>
+        <p>PPA articles separate sourced facts from commentary, and are revised when sources change.</p>
+        <a class="btn btn--outline btn--small" href="{{ '/research/' | relative_url }}">All articles</a>
+      </aside>
+    </div>
+  </div>
+</article>

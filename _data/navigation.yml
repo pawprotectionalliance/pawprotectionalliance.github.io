@@ -1,0 +1,5 @@
+- { title: Home, url: / }
+- { title: Legislation & Policy, short: Legislation, url: /legislation/ }
+- { title: Research & Awareness, short: Research, url: /research/ }
+- { title: About, url: /about/ }
+- { title: Contact, url: /contact/ }

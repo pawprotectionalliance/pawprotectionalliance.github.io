@@ -1,0 +1,17 @@
+# Homepage photo cards. Change titles, text, photos, or links here.
+farm_cards:
+  - { title: Cattle, photo: cattle-mosaic, url: /research/, text: "Dairy and beef cattle: social bonds, housing, and handling." }
+  - { title: Pigs, photo: pig, url: /research/pig-welfare/, text: "Intelligent, social animals whose housing shapes every day of their lives." }
+  - { title: Chickens & Poultry, photo: chicken, url: /research/, text: "The most numerous land animals raised for food." }
+  - { title: Sheep, photo: sheep, url: /research/, text: "Flock animals with strong recognition and memory." }
+  - { title: Goats, photo: goat, url: /research/, text: "Curious, agile, and highly social." }
+  - { title: Fish & Aquatic Animals, photo: fish, url: /research/, text: "Farmed fish are among the least protected animals in food production." }
+beyond_cards:
+  - { kicker: Aquatic Animals, title: Aquatic Animal Welfare, photo: fish, url: /research/, text: "Fish and other aquatic animals, in farms and in the wild, and the protections they lack." }
+  - { kicker: Wildlife, title: Missouri Wildlife, photo: deer, url: /research/?category=Wildlife, text: "Habitat, rehabilitation, and coexistence close to home." }
+  - { kicker: Wildlife, title: Living Alongside Wildlife, photo: brown-owl, url: /research/?category=Wildlife, text: "Foxes, owls, and the animals that share our communities." }
+  - { kicker: Wildlife, title: Wildlife Protection, photo: fox, url: /research/?category=Wildlife, text: "Habitat protection, wildlife law, and safeguards for threatened species." }
+  - { kicker: Research & Welfare, title: Animal Welfare & Research, photo: volunteer-cow, url: /research/, text: "How evidence-based research shapes better welfare standards for animals." }
+  - { kicker: Companion Animals, title: Companions at Home, photo: dog-cat, url: "/research/?category=Companion%20animals", text: "Dogs, cats, and the people and policies that protect them." }
+  - { kicker: Research Animals, title: Animals in Research, photo: rabbit, url: "/research/?category=Animals%20in%20research", text: "Oversight, standards, and alternatives." }
+  - { kicker: Working & Entertainment, title: Working and Performing Animals, photo: horse, url: "/research/?category=Animals%20in%20entertainment", text: "Welfare questions in work, racing, performance, and exhibition." }

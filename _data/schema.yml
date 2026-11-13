@@ -1,0 +1,8 @@
+# Field rules used by the /data-check/ page. Also documented in docs/DATA-FIELDS.md.
+legislation:
+  label: Legislation
+  key: bill_number
+  required: [bill_number, title, session, jurisdiction, animal_category, summary, status, last_action, source_url, last_verified, verification, demo]
+  dates: [last_action_date, last_verified]
+  urls: [source_url]
+  lists: { animal_category: animal_category, status: bill_status, verification: verification, demo: yes_no }

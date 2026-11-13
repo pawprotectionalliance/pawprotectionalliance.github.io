@@ -1,0 +1,17 @@
+{%- assign a = include.a -%}
+{%- assign img = include.image | default: a.image -%}
+<a class="art-card zoom{% if include.feature %} art-card--feature{% endif %}{% if include.noimage %} art-card--text{% endif %}" href="{{ a.url | relative_url }}" data-item data-search="{{ a.title | append: ' ' | append: a.summary | append: ' ' | append: a.category | downcase | escape }}" data-category="{{ a.category | escape }}">
+  {%- unless include.noimage %}
+  <span class="media art-card__media" style="display:block">{% include photo.html id=img sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw" %}<span class="photo-credit">{% include photo-credit.html id=img %}</span></span>
+  {%- endunless %}
+  <span class="art-card__body">
+    <span class="kicker">{{ a.category }}</span>
+    <span class="art-card__title">{{ a.title }}</span>
+    <span class="art-card__summary">{{ a.summary }}</span>
+    <span class="art-card__meta">
+      <span>{{ a.date | date: "%b %-d, %Y" }}</span>
+      {%- if a.references and a.references.size > 0 %}<span>{{ a.references.size }} source{% if a.references.size != 1 %}s{% endif %}</span>{% else %}<span>Sources pending</span>{% endif %}
+      {%- if a.demo %}<span class="badge badge--demo">Demo layout</span>{% endif %}
+    </span>
+  </span>
+</a>

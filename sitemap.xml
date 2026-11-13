@@ -1,0 +1,12 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for p in site.pages %}{% if p.sitemap != false and p.noindex != true and p.url != "/404.html" and p.url contains "/" %}{% unless p.url contains ".xml" or p.url contains ".txt" or p.url contains ".css" or p.url contains ".js" %}
+  <url><loc>{{ p.url | absolute_url }}</loc></url>{% endunless %}{% endif %}{% endfor %}
+{%- include load-articles.html -%}
+{%- for a in articles %}
+  <url><loc>{{ a.url | absolute_url }}</loc>{% if a.revised %}<lastmod>{{ a.revised | date: "%Y-%m-%d" }}</lastmod>{% endif %}</url>{% endfor %}
+</urlset>

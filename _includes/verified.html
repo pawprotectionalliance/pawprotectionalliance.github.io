@@ -1,0 +1,1 @@
+{%- if include.date and include.date != "" -%}<span class="verified">Last verified <time datetime="{{ include.date }}">{{ include.date | date: "%b %-d, %Y" }}</time></span>{%- endif -%}

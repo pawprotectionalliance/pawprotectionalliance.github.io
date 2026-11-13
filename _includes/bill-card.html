@@ -1,0 +1,36 @@
+{%- assign r = include.r -%}
+<article class="bill-card" data-item
+  data-search="{{ r.bill_number | append: ' ' | append: r.title | append: ' ' | append: r.summary | append: ' ' | append: r.animal_category | downcase | escape }}"
+  data-animal_category="{{ r.animal_category | escape }}" data-status="{{ r.status | escape }}">
+  <div class="bill-card__top">
+    <span class="bill-card__id">{{ r.bill_number }}</span>
+    <span class="status-pill" data-status="{{ r.status | slugify }}">Last recorded: {{ r.status }}</span>
+    {% include badges.html r=r %}
+  </div>
+  <h3 class="bill-card__title">{{ r.title }}</h3>
+  <dl class="bill-card__meta">
+    <div><dt>Session</dt><dd>{{ r.session }}</dd></div>
+    <div><dt>Jurisdiction</dt><dd>{{ r.jurisdiction }}</dd></div>
+    <div><dt>Animal category</dt><dd>{{ r.animal_category }}</dd></div>
+    <div><dt>Last action</dt><dd>{{ r.last_action }}{% if r.last_action_date and r.last_action_date != "" %} <span class="nowrap">({{ r.last_action_date | date: "%b %-d, %Y" }})</span>{% endif %}</dd></div>
+  </dl>
+  {%- if r.demo == "yes" or r.verification == "needed" %}
+  <p class="note">Needs verification. This shows the last action recorded when the record was checked. It does not confirm the bill is still active; see the official record for current status.</p>
+  {%- endif %}
+  {%- unless include.compact %}
+  <div class="bill-card__summary">
+    <h4 class="mini-label">Plain-language summary</h4>
+    <p>{{ r.summary }}</p>
+  </div>
+  {%- if r.commentary and r.commentary != "" %}
+  <aside class="commentary" aria-label="PPA commentary">
+    <h4 class="mini-label">PPA commentary <span>Opinion, separate from the official record</span></h4>
+    <p>{{ r.commentary }}</p>
+  </aside>
+  {%- endif %}
+  {%- endunless %}
+  <div class="bill-card__foot">
+    {% include verified.html date=r.last_verified %}
+    <a class="text-link" href="{{ r.source_url }}">Official record<span class="sr-only"> for {{ r.bill_number }}</span></a>
+  </div>
+</article>

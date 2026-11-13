@@ -1,0 +1,9 @@
+# Allowed values (the drop-down choices in the PPA content workbook). Spell exactly as shown.
+animal_category: [Farmed animals, Aquatic animals, Wildlife, Companion animals, Animals in research, Animals in entertainment, All animals]
+bill_status: [Pre-filed, Introduced, In committee, Passed one chamber, Passed both chambers, Signed into law, Vetoed, Did not pass]
+scope: [Missouri, National, International]
+listing_type: [Active opportunity, Program information]
+volunteer_category: [Remote, Research, Administration, Data management, Technology, Animal care, Events]
+resource_type: [Cruelty reporting, Wildlife rehabilitation, Sanctuary, Education, Assistance program]
+yes_no: ["yes", "no"]
+verification: [needed, verified]

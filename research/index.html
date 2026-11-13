@@ -1,0 +1,33 @@
+---
+title: Research & Awareness
+heading: Research &amp; Awareness
+eyebrow: Research Library
+hero_image: dairy-barn
+intro: Evidence-based reporting on animal welfare, agricultural practices, and protection initiatives, with farmed animals as our leading priority.
+description: Evidence-based articles on animal welfare, agricultural practices, and protection initiatives, with every source listed.
+---
+{%- include load-articles.html -%}
+{%- assign cats = site.data.lists.animal_category | where_exp: "c", "c != 'All animals'" | push: "Research methods" -%}
+<section class="section">
+  <div class="wrap">
+    <form class="filter-bar" data-filter-for="articles" role="search" onsubmit="return false" style="grid-template-columns:1fr">
+      <div class="filter-bar__field filter-bar__field--search">
+        <label for="articles-q">Search articles</label>
+        <input id="articles-q" type="search" data-filter-search placeholder="Keyword" autocomplete="off">
+      </div>
+      <p class="filter-bar__count" aria-live="polite" data-filter-count></p>
+    </form>
+    <div class="chip-row" role="group" aria-label="Filter by category" data-chip-for="articles" data-chip-key="category">
+      <button type="button" class="chip" data-chip-value="" aria-pressed="true">All topics</button>
+      {%- for c in cats %}
+      <button type="button" class="chip" data-chip-value="{{ c }}" aria-pressed="false">{{ c }}</button>
+      {%- endfor %}
+    </div>
+    <div class="research-grid" data-filter-list="articles">
+      {%- for a in articles %}
+      {% include article-card.html a=a feature=forloop.first %}
+      {%- endfor %}
+    </div>
+    <p class="filter-empty" data-filter-empty="articles">No articles in this topic yet. Verified articles will be added as research is completed.</p>
+  </div>
+</section>

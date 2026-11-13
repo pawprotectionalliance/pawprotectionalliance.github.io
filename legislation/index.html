@@ -1,0 +1,29 @@
+---
+title: Legislation & Policy
+heading: Legislation &amp; Policy
+eyebrow: Legislation Watch
+hero_image: capitol-mo
+intro: Selected federal and state animal-protection bills, beginning with Missouri, with official source links and last-checked dates.
+description: Explore selected Missouri and federal animal-protection legislation with plain-language summaries and official source links.
+---
+{%- include load-records.html set="legislation" -%}
+<section class="section">
+  <div class="wrap">
+    <div class="intro-row">
+      <div>
+        <h2>How to read this tracker</h2>
+        <p>Each record reflects the legislative session and the most recent action found in the cited official record, along with the date it was last checked. An older session may have ended even if its last recorded action says “In committee.” Summaries are written by PPA in plain language. Always rely on the official record for the bill's text and current status.</p>
+      </div>
+      <div class="note">
+        <p><strong>Facts and commentary are kept apart.</strong> The official record, status, and summary are factual. Where PPA offers a view, it appears in a separate box labeled "PPA commentary."</p>
+      </div>
+    </div>
+    {% include filter-bar.html target="bills" records=records fields="animal_category:Animal category,status:Last recorded status" label="Search legislation" %}
+    <div class="bill-list" data-filter-list="bills">
+      {%- for r in records %}
+      {% include bill-card.html r=r %}
+      {%- endfor %}
+    </div>
+    <p class="filter-empty" data-filter-empty="bills">No records match these filters.</p>
+  </div>
+</section>

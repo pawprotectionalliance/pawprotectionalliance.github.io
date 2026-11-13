@@ -1,0 +1,15 @@
+{%- comment -%}
+  Usage: {% include photo.html id="hero-cow" sizes="100vw" eager=true class="" %}
+  Photos and their licenses live in _data/photos.csv. Files: assets/img/photos/ID-640/1280/1920.webp
+{%- endcomment -%}
+{%- assign p = site.data.photos | where: "id", include.id | first -%}
+{%- assign base = '/assets/img/photos/' | append: include.id -%}
+{%- if p.status == "placeholder" -%}{%- assign alt = "Photo placeholder: " | append: p.subject -%}{%- elsif p.status == "concept" -%}{%- assign alt = "" | append: p.alt -%}{%- else -%}{%- assign alt = p.alt -%}{%- endif -%}
+<img class="{{ include.class }}"
+  src="{{ base | append: '-1280.webp' | relative_url }}"
+  srcset="{{ base | append: '-640.webp' | relative_url }} 640w, {{ base | append: '-1280.webp' | relative_url }} 1280w, {{ base | append: '-1920.webp' | relative_url }} 1920w"
+  sizes="{{ include.sizes | default: '100vw' }}"
+  width="1920" height="1280"
+  alt="{% if include.decorative %}{% else %}{{ alt }}{% endif %}"
+  style="object-position: {{ p.focal | default: '50% 50%' }}"
+  {% if include.eager %}fetchpriority="high"{% else %}loading="lazy" decoding="async"{% endif %}>

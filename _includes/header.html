@@ -1,0 +1,27 @@
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <picture>
+        <source type="image/webp" srcset="{{ '/assets/img/logo/ppa-emblem-128.webp' | relative_url }} 1x, {{ '/assets/img/logo/ppa-emblem-256.webp' | relative_url }} 2x">
+        <img class="brand__emblem" src="{{ '/assets/img/logo/ppa-emblem-128.png' | relative_url }}" width="64" height="64" alt="">
+      </picture>
+      <span class="brand__text">
+        <span class="brand__name">Paw Protection Alliance</span>
+        <span class="brand__tag">Protecting Every Species</span>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span class="nav-toggle__label">Menu</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        {%- for item in site.data.navigation %}
+        {%- if item.url == "/" -%}{%- assign active = false -%}{%- if page.url == "/" -%}{%- assign active = true -%}{%- endif -%}
+        {%- else -%}{%- assign active = page.url | slice: 0, item.url.size -%}{%- if active == item.url -%}{%- assign active = true -%}{%- else -%}{%- assign active = false -%}{%- endif -%}{%- endif %}
+        <li><a href="{{ item.url | relative_url }}"{% if active %} aria-current="page"{% endif %}>{{ item.short | default: item.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>

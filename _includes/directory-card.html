@@ -1,0 +1,34 @@
+{%- comment -%} Generic card for Giving, Volunteer, and Resources directories. {%- endcomment -%}
+{%- assign r = include.r -%}
+{%- assign fl = include.filters | split: "," -%}
+<article class="dir-card" data-item
+  data-search="{{ r.name | append: ' ' | append: r.title | append: ' ' | append: r.organization | append: ' ' | append: r.mission | append: ' ' | append: r.description | append: ' ' | append: r.location | append: ' ' | append: r.area | downcase | escape }}"
+  {% for f in fl %}data-{{ f }}="{{ r[f] | escape }}" {% endfor %}>
+  <div class="dir-card__top">
+    {%- if include.kind == "volunteer" %}
+    <span class="type-pill{% if r.listing_type == 'Active opportunity' %} type-pill--active{% endif %}">{{ r.listing_type }}</span>
+    {%- else %}
+    <span class="kicker">{{ r.animal_category | default: r.resource_type }}</span>
+    {%- endif %}
+    {% include badges.html r=r %}
+  </div>
+  <h3 class="dir-card__title">{{ r.name | default: r.title }}</h3>
+  {%- if r.organization %}<p class="dir-card__org">{{ r.organization }}</p>{% endif %}
+  <p class="dir-card__text">{{ r.mission | default: r.description }}</p>
+  <ul class="dir-card__facts">
+    {%- if r.location %}<li><span>Location</span> {{ r.location }}</li>{% endif %}
+    {%- if r.area %}<li><span>Area served</span> {{ r.area }}</li>{% endif %}
+    {%- if r.scope %}<li><span>Scope</span> {{ r.scope }}</li>{% endif %}
+    {%- if r.category %}<li><span>Category</span> {{ r.category }}</li>{% endif %}
+    {%- if r.resource_type and include.kind == "resource" %}<li><span>Type</span> {{ r.resource_type }}</li>{% endif %}
+    {%- if r.phone and r.phone != "" %}<li><span>Phone</span> <a href="tel:{{ r.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">{{ r.phone }}</a></li>{% endif %}
+  </ul>
+  <div class="dir-card__foot">
+    {% include verified.html date=r.last_verified %}
+    <span class="dir-card__links">
+      {%- if r.website %}<a class="text-link" href="{{ r.website }}">Official website<span class="sr-only"> of {{ r.name }}</span></a>{% endif %}
+      {%- if r.donation_url and r.donation_url != "" %}<a class="btn btn--small btn--gold" href="{{ r.donation_url }}">Give on their site<span class="sr-only"> ({{ r.name }})</span></a>{% endif %}
+      {%- if r.url %}<a class="text-link" href="{{ r.url }}">{% if include.kind == "volunteer" %}Details{% else %}Visit{% endif %}<span class="sr-only"> {{ r.name | default: r.title }}</span></a>{% endif %}
+    </span>
+  </div>
+</article>

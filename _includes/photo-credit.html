@@ -1,0 +1,4 @@
+{%- assign p = site.data.photos | where: "id", include.id | first -%}
+{%- if p.status != "concept" and p.status != "placeholder" and p.credit and p.credit != "" -%}
+  Photo: {{ p.credit }}{% if p.license and p.license != "" %}, {{ p.license }}{% endif %}
+{%- endif -%}

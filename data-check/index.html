@@ -1,0 +1,115 @@
+---
+title: Data Check
+eyebrow: For site maintainers
+intro: Automatic checks of the published data files. Run after every upload.
+noindex: true
+sitemap: false
+---
+{%- assign now = site.time | date: "%s" | plus: 0 -%}
+{%- assign stale_secs = site.stale_after_days | times: 86400 -%}
+{%- assign total_bad = 0 -%}{%- assign total_warn = 0 -%}
+<section class="section">
+  <div class="wrap">
+    <div class="alert alert--light" role="note" style="margin-bottom:2rem">
+      <span class="alert__icon" aria-hidden="true">i</span>
+      <div><strong>What this page checks, and what it does not.</strong> It checks that required fields are filled in, dates are real dates written as YYYY-MM-DD, links are written in a valid format (https://...), and values match the allowed lists. It also flags records not verified in the last {{ site.stale_after_days }} days. <strong>It cannot tell whether a link still works or whether information is still correct.</strong> Those must be checked by a person, which is what "last verified" records.</div>
+    </div>
+    <p>Data checked {{ site.time | date: "%B %-d, %Y at %-I:%M %p" }} (when the site was last built).</p>
+
+    {%- for ds in site.data.schema %}
+    {%- assign name = ds[0] -%}{%- assign cfg = ds[1] -%}
+    {%- assign rkey = cfg.key -%}{%- assign recs = site.data[name] | where_exp: "r", "r[rkey] != nil" -%}
+    <h2 id="{{ name }}">{{ cfg.label }} <small style="font-size:1rem;color:var(--muted)">_data/{{ name }}.csv &middot; {{ recs.size }} records</small></h2>
+    <div class="table-scroll">
+    <table class="check-table">
+      <thead><tr><th scope="col">Row</th><th scope="col">Record</th><th scope="col">Result</th></tr></thead>
+      <tbody>
+      {%- for r in recs %}
+      {%- assign bad = "" -%}{%- assign warn = "" -%}
+      {%- for f in cfg.required -%}{%- assign v = r[f] | strip -%}{%- if v == "" -%}{%- assign bad = bad | append: "Missing " | append: f | append: "|" -%}{%- endif -%}{%- endfor -%}
+      {%- for f in cfg.dates -%}{%- assign v = r[f] | strip -%}{%- if v != "" -%}
+        {%- assign iso = v | date: "%Y-%m-%d" -%}{%- assign secs = v | date: "%s" -%}
+        {%- if iso != v or secs == v -%}{%- assign bad = bad | append: f | append: ' is not a valid date written as YYYY-MM-DD ("' | append: v | append: '")|' -%}
+        {%- elsif f == "last_verified" -%}{%- assign age = now | minus: secs -%}
+          {%- if age > stale_secs -%}{%- assign warn = warn | append: "Not verified in over " | append: site.stale_after_days | append: " days|" -%}{%- endif -%}
+          {%- if age < -86400 -%}{%- assign bad = bad | append: "last_verified is in the future|" -%}{%- endif -%}
+        {%- endif -%}
+      {%- endif -%}{%- endfor -%}
+      {%- for f in cfg.urls -%}{%- assign v = r[f] | strip -%}{%- if v != "" -%}
+        {%- assign head = v | slice: 0, 8 -%}{%- assign rest = v | remove_first: "https://" -%}
+        {%- if head != "https://" -%}{%- assign bad = bad | append: f | append: ' must start with https:// ("' | append: v | append: '")|' -%}
+        {%- elsif v contains " " -%}{%- assign bad = bad | append: f | append: " contains a space|" -%}
+        {%- else -%}{%- unless rest contains "." -%}{%- assign bad = bad | append: f | append: ' is not a valid web address ("' | append: v | append: '")|' -%}{%- endunless -%}
+        {%- endif -%}
+      {%- endif -%}{%- endfor -%}
+      {%- for pair in cfg.lists -%}{%- assign lk = pair[0] -%}{%- assign ln = pair[1] -%}{%- assign v = r[lk] | strip -%}{%- assign allowed = site.data.lists[ln] -%}
+        {%- if v != "" -%}{%- unless allowed contains v -%}{%- assign bad = bad | append: lk | append: ' "' | append: v | append: '" is not an allowed value|' -%}{%- endunless -%}{%- endif -%}
+      {%- endfor -%}
+      {%- assign keyv = r[cfg.key] -%}{%- assign dupes = recs | where: cfg.key, keyv -%}
+      {%- if dupes.size > 1 -%}{%- assign bad = bad | append: "Duplicate " | append: cfg.key | append: "|" -%}{%- endif -%}
+      {%- if r.demo == "yes" -%}{%- assign warn = warn | append: "Demo record (hidden when demo_mode is false)|" -%}{%- endif -%}{%- if r.verification == "needed" -%}{%- assign warn = warn | append: "Needs verification against the official record (labeled on the site)|" -%}{%- endif -%}
+      <tr>
+        <td>{{ forloop.index | plus: 1 }}</td>
+        <td>{% if keyv and keyv != "" %}{{ keyv }}{% else %}(no {{ cfg.key }}){% endif %}</td>
+        <td>
+          {%- if bad == "" and warn == "" %}<span class="check-ok">OK</span>{% endif -%}
+          {%- assign bl = bad | split: "|" -%}{%- for b in bl %}{% if b != "" %}{% assign total_bad = total_bad | plus: 1 %}<div class="check-bad">Error: {{ b }}</div>{% endif %}{% endfor -%}
+          {%- assign wl = warn | split: "|" -%}{%- for w in wl %}{% if w != "" %}{% assign total_warn = total_warn | plus: 1 %}<div class="check-warn">Note: {{ w }}</div>{% endif %}{% endfor -%}
+        </td>
+      </tr>
+      {%- else %}
+      <tr><td colspan="3">No records yet.</td></tr>
+      {%- endfor %}
+      {%- assign allrows = site.data[name] -%}
+      {%- for r in allrows -%}{%- if r[rkey] == nil -%}
+        {%- assign filled = 0 -%}{%- for kv in r -%}{%- if kv[1] and kv[1] != "" -%}{%- assign filled = filled | plus: 1 -%}{%- endif -%}{%- endfor -%}
+        {%- if filled > 0 -%}{%- assign total_bad = total_bad | plus: 1 %}
+      <tr><td>{{ forloop.index | plus: 1 }}</td><td>(no {{ cfg.key }})</td><td><div class="check-bad">Error: This row has information but no {{ cfg.key }}, so it will not appear on the website.</div></td></tr>
+        {%- endif -%}
+      {%- endif -%}{%- endfor %}
+      </tbody>
+    </table>
+    </div>
+    {%- endfor %}
+
+    <h2 id="articles">Articles <small style="font-size:1rem;color:var(--muted)">_articles/ &middot; {{ site.articles.size }} files</small></h2>
+    <table class="check-table"><thead><tr><th scope="col">File</th><th scope="col">Result</th></tr></thead><tbody>
+    {%- for a in site.articles %}
+    {%- assign bad = "" -%}
+    {%- unless a.title %}{% assign bad = bad | append: "Missing title|" %}{% endunless -%}
+    {%- unless a.summary %}{% assign bad = bad | append: "Missing summary|" %}{% endunless -%}
+    {%- unless a.category %}{% assign bad = bad | append: "Missing category|" %}{% endunless -%}
+    {%- assign img = site.data.photos | where: "id", a.image | first -%}{%- unless img %}{% assign bad = bad | append: "image is not a photo id from photos.csv|" %}{% endunless -%}
+    {%- if a.demo != true and a.references.size == 0 %}{% assign bad = bad | append: "No references listed|" %}{% endif -%}
+    <tr><td>{{ a.relative_path | remove: "_articles/" }}</td><td>
+      {%- if bad == "" and a.demo != true %}<span class="check-ok">OK</span>{% endif -%}
+      {%- assign bl = bad | split: "|" -%}{%- for b in bl %}{% if b != "" %}{% assign total_bad = total_bad | plus: 1 %}<div class="check-bad">Error: {{ b }}</div>{% endif %}{% endfor -%}
+      {%- if a.demo == true %}{% assign total_warn = total_warn | plus: 1 %}<div class="check-warn">Note: Demo layout article (delete before launch)</div>{% endif -%}
+    </td></tr>
+    {%- endfor %}
+    </tbody></table>
+
+    <h2 id="photos">Photos <small style="font-size:1rem;color:var(--muted)">_data/photos.csv</small></h2>
+    <table class="check-table"><thead><tr><th scope="col">Photo</th><th scope="col">Result</th></tr></thead><tbody>
+    {%- for p in site.data.photos %}
+    {%- assign bad = "" -%}
+    {%- if p.status == "licensed" -%}
+      {%- assign pf = "credit,source_url,license,date_checked,alt" | split: "," -%}{%- for f in pf -%}{%- assign v = p[f] | strip -%}{%- if v == "" %}{% assign bad = bad | append: "Missing " | append: f | append: "|" %}{% endif -%}{%- endfor -%}
+    {%- endif -%}
+    <tr><td>{{ p.id }}</td><td>
+      {%- if p.status == "placeholder" %}{% assign total_warn = total_warn | plus: 1 %}<div class="check-warn">Note: Placeholder. A licensed photo is required before public release.</div>
+      {%- elsif p.status == "concept" %}{% assign total_warn = total_warn | plus: 1 %}<div class="check-warn">Note: AI concept reference. Replace with a licensed real photo before public release.</div>
+      {%- elsif bad == "" %}<span class="check-ok">OK</span>{% endif -%}
+      {%- assign bl = bad | split: "|" -%}{%- for b in bl %}{% if b != "" %}{% assign total_bad = total_bad | plus: 1 %}<div class="check-bad">Error: {{ b }}</div>{% endif %}{% endfor -%}
+    </td></tr>
+    {%- endfor %}
+    </tbody></table>
+
+    <div class="aside-box" style="position:static">
+      <h2>Summary</h2>
+      <p><span class="check-bad">{{ total_bad }} error{% if total_bad != 1 %}s{% endif %}</span> &middot; <span class="check-warn">{{ total_warn }} note{% if total_warn != 1 %}s{% endif %}</span></p>
+      <p>Errors must be fixed in the workbook and re-uploaded. Notes are reminders, such as placeholders and demo content that must be replaced before launch.</p>
+      <p>Prototype mode is <strong>{% if site.demo_mode %}ON{% else %}OFF{% endif %}</strong>.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+---
+layout: default
+---
+{%- if page.hero_image -%}
+<section class="page-hero">
+  <div class="page-hero__img">{% include photo.html id=page.hero_image sizes="100vw" eager=true decorative=true %}</div>
+  <div class="wrap page-hero__content">
+    {%- if page.eyebrow %}<p class="eyebrow">{{ page.eyebrow }}</p>{% endif %}
+    <h1>{{ page.heading | default: page.title }}</h1>
+    {%- if page.intro %}<p>{{ page.intro }}</p>{% endif %}
+  </div>
+  <span class="photo-credit">{% include photo-credit.html id=page.hero_image %}</span>
+</section>
+{%- else -%}
+<section class="page-hero page-hero--plain">
+  <div class="wrap page-hero__content">
+    {%- if page.eyebrow %}<p class="eyebrow">{{ page.eyebrow }}</p>{% endif %}
+    <h1>{{ page.heading | default: page.title }}</h1>
+    {%- if page.intro %}<p>{{ page.intro }}</p>{% endif %}
+  </div>
+</section>
+{%- endif %}
+{{ content }}

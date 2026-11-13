@@ -1,0 +1,55 @@
+---
+hero_image: pasture-sunrise
+title: Contact
+heading: Contact PPA
+eyebrow: Get in Touch
+intro: Questions, corrections, and suggestions for verified resources are welcome.
+description: Contact Paw Protection Alliance with questions, corrections, or resource suggestions.
+---
+<section class="section">
+  <div class="wrap two-col">
+    <div>
+      {%- if site.tally_form_id != "" %}
+      <div class="form-shell">
+        <p class="note">Before submitting, please review our <a href="{{ '/privacy/' | relative_url }}">Privacy Policy</a>. Please do not include sensitive personal information. Submissions are handled by Tally, a third-party form service.</p>
+        <iframe class="tally-frame" data-tally-src="https://tally.so/embed/{{ site.tally_form_id }}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="560" frameborder="0" marginheight="0" marginwidth="0" title="Contact Paw Protection Alliance (Tally form)"></iframe>
+        <script>
+          (function () {
+            var w = "https://tally.so/widgets/embed.js";
+            var load = function () {
+              if (typeof Tally !== "undefined") { Tally.loadEmbeds(); return; }
+              document.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (e) { e.src = e.dataset.tallySrc; });
+            };
+            if (typeof Tally !== "undefined") { load(); return; }
+            var s = document.createElement("script"); s.src = w; s.onload = load; s.onerror = load; document.body.appendChild(s);
+          })();
+        </script>
+        <p class="note">If the form does not display, <a href="https://tally.so/r/J1poer" target="_blank" rel="noopener noreferrer">open the contact form in a new tab</a>.</p>
+      </div>
+      {%- else %}
+      <div class="form-shell">
+        <p class="form-status" role="status"><span aria-hidden="true">&#9679;</span> Prototype: this form is not active yet. Messages cannot be sent.</p>
+        <form aria-describedby="form-note" onsubmit="return false">
+          <fieldset disabled>
+            <legend class="sr-only">Contact form (inactive)</legend>
+            <div><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name"></div>
+            <div><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
+            <div><label for="c-topic">Topic</label>
+              <select id="c-topic" name="topic"><option>General question</option><option>Correction to published information</option><option>Suggest a resource or organization</option><option>Volunteer opportunity information</option><option>Other</option></select></div>
+            <div><label for="c-msg">Message</label><textarea id="c-msg" name="message"></textarea></div>
+            <label class="check"><input type="checkbox" name="consent"> I agree that PPA may use the information I provide to respond to my message, as described in the <a href="{{ '/privacy/' | relative_url }}">privacy policy</a>.</label>
+            <div><button class="btn btn--green" type="submit">Send message</button></div>
+          </fieldset>
+        </form>
+        <p id="form-note" class="note" style="margin-top:1.5rem">When activated, this form will be provided by Tally, a third-party form service. Please do not include sensitive personal information.</p>
+      </div>
+      {%- endif %}
+    </div>
+    <aside class="aside-box">
+      <h2>Before you write</h2>
+      <p><strong>Emergencies:</strong> PPA is not an emergency service. If an animal is in immediate danger, contact local law enforcement or animal control.</p>
+      <p><strong>Corrections:</strong> Please include the page address and a source for the correction.</p>
+      <p><strong>Your information:</strong> We ask only for what we need to reply. See the <a href="{{ '/privacy/' | relative_url }}">privacy policy</a>.</p>
+    </aside>
+  </div>
+</section>

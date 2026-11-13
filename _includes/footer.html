@@ -1,0 +1,35 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <span class="emblem-disc">
+        <picture>
+          <source type="image/webp" srcset="{{ '/assets/img/logo/ppa-emblem-256.webp' | relative_url }}">
+          <img src="{{ '/assets/img/logo/ppa-emblem-256.png' | relative_url }}" width="112" height="112" alt="" loading="lazy">
+        </picture>
+      </span>
+      <p class="site-footer__name">Paw Protection Alliance</p>
+      <p class="site-footer__tag">{{ site.tagline }}</p>
+      <p class="site-footer__mission">Advancing animal protection through credible research, public education, and legislative awareness, with a particular commitment to animals raised for food.</p>
+    </div>
+    <nav class="site-footer__nav" aria-label="Footer">
+      <h2 class="site-footer__heading">Explore</h2>
+      <ul>
+        {%- for item in site.data.navigation %}
+        <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    <div class="site-footer__info">
+      <h2 class="site-footer__heading">About this website</h2>
+      <p>Paw Protection Alliance is a developing independent animal-protection initiative with a national focus. It is not incorporated, is not a registered nonprofit, and does not hold charitable tax-exempt status. "Paw Protection Alliance" is a working name.</p>
+      <p>PPA is an informational initiative, not an emergency animal rescue service.</p>
+      <ul class="site-footer__links">
+        <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
+        <li><a href="{{ '/privacy/' | relative_url }}">Privacy policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap site-footer__base">
+    <p>&copy; {{ site.time | date: "%Y" }} Paw Protection Alliance (working name). {{ site.org_headline }}</p>
+  </div>
+</footer>

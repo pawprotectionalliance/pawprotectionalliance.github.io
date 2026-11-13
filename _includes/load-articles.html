@@ -1,0 +1,2 @@
+{%- assign articles = site.articles | sort: "date" | reverse -%}
+{%- unless site.demo_mode -%}{%- assign articles = articles | where_exp: "a", "a.demo != true" -%}{%- endunless -%}

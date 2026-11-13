@@ -1,0 +1,171 @@
+---
+layout: default
+title: Home
+body_class: home
+---
+{%- include load-records.html set="legislation" -%}
+{%- assign bills = records -%}
+{%- include load-articles.html -%}
+
+<!-- B. HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__img">{% include photo.html id="hero-cow" sizes="100vw" eager=true %}</div>
+  <div class="wrap">
+    <div class="hero__content">
+      <p class="eyebrow hero__eyebrow">Paw Protection Alliance</p>
+      <h1 id="hero-title"><span>Every Life Matters.</span> <span><em>Every Species</em> Deserves Protection.</span></h1>
+      <p class="hero__lede">Advancing animal welfare through research, education, legislative awareness, and meaningful action, with a particular commitment to animals raised for food.</p>
+      <div class="btn-row">
+        <a class="btn btn--gold" href="{{ '/about/' | relative_url }}">Our Mission <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn--ghost" href="#farmed-animals">Explore Animal Protection</a>
+      </div>
+    </div>
+  </div>
+  <span class="photo-credit">{% include photo-credit.html id="hero-cow" %}</span>
+  <span class="hero__scroll" aria-hidden="true"></span>
+</section>
+
+<!-- C. OUR COMMITMENT -->
+<section class="section section--cream" aria-labelledby="commit-title">
+  <div class="wrap commit">
+    <div>
+      <p class="eyebrow">Our Commitment</p>
+      <h2 id="commit-title">Protection Through Knowledge. <span>Progress Through Action.</span></h2>
+      <p class="lede">Paw Protection Alliance represents all animals, from wildlife and marine life to the companions who share our homes. Our leading priority is the animals raised for food, whose lives are shaped by systems most people never see.</p>
+      <p>Our mission is national, with farmed-animal welfare as a leading priority. Our first state-level legislation research begins in Missouri.</p>
+      <ul class="pillars">
+        <li><i>01</i><b>Credible research</b><small>Sourced reporting on welfare, agricultural practices, and protection initiatives.</small></li>
+        <li><i>02</i><b>Public education</b><small>Clear, accessible explanations of what animals need and what affects their lives.</small></li>
+        <li><i>03</i><b>Legislative awareness</b><small>Plain-language tracking of selected federal and state bills, beginning with Missouri.</small></li>
+        <li><i>04</i><b>Documented progress</b><small>Careful source verification and clear documentation of our findings.</small></li>
+      </ul>
+    </div>
+    <figure class="media commit__media zoom">
+      {% include photo.html id="pasture-sunrise" sizes="(max-width: 860px) 100vw, 50vw" %}
+      <figcaption class="photo-credit">{% include photo-credit.html id="pasture-sunrise" %}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- D. FARMED ANIMALS -->
+<section class="section section--green on-dark" id="farmed-animals" aria-labelledby="farm-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Farmed Animals</p>
+        <h2 id="farm-title">The Lives Behind Our Food</h2>
+      </div>
+      <p class="lede">Cattle, pigs, chickens, sheep, goats, and fish have complex physical, behavioral, and social needs. Explore their welfare and the systems that affect their lives.</p>
+    </div>
+    <div class="farm-grid">
+      {%- for c in site.data.home.farm_cards %}
+      <a class="photo-card zoom" href="{{ c.url | relative_url }}">
+        {% include photo.html id=c.photo sizes="(max-width: 900px) 100vw, 50vw" %}
+        <span class="photo-credit">{% include photo-credit.html id=c.photo %}</span>
+        <span class="photo-card__body">
+          <span class="photo-card__title">{{ c.title }}</span>
+          <span class="photo-card__text">{{ c.text }}</span>
+          <span class="photo-card__cta">{{ c.cta | default: "Welfare research" }}</span>
+        </span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Full-bleed photographic statement -->
+<section class="band" aria-label="Our scope">
+  <div class="band__img">{% include photo.html id="dairy-barn" sizes="100vw" decorative=true %}</div>
+  <div class="wrap">
+    <blockquote class="band__quote">
+      <p>Farmed animals are our leading priority. Every species is part of our mission.</p>
+      <small>The Paw Protection Alliance commitment</small>
+    </blockquote>
+  </div>
+  <span class="photo-credit">{% include photo-credit.html id="dairy-barn" %}</span>
+</section>
+
+<!-- E. BEYOND THE FARM -->
+<section class="section" aria-labelledby="beyond-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Beyond the Farm</p>
+        <h2 id="beyond-title">Wildlife, Waterways & Beyond</h2>
+      </div>
+      <p class="lede">Our all-species commitment includes wildlife, freshwater and aquatic animals, birds, companion animals, and animals used in research and entertainment.</p>
+    </div>
+    <div class="beyond-grid">
+      {%- for c in site.data.home.beyond_cards %}
+      <a class="ed-card zoom" href="{{ c.url | relative_url }}">
+        <span class="media ed-card__media" style="display:block">{% include photo.html id=c.photo sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 40vw" %}<span class="photo-credit">{% include photo-credit.html id=c.photo %}</span></span>
+        <span class="kicker">{{ c.kicker }}</span>
+        <span class="ed-card__title" style="display:block">{{ c.title }}</span>
+        <span class="ed-card__text" style="display:block">{{ c.text }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- F. LEGISLATION WATCH -->
+<section class="section section--cream" aria-labelledby="legis-title">
+  <div class="wrap legis">
+    <div class="legis__intro">
+      <p class="eyebrow">Legislation Watch</p>
+      <h2 id="legis-title">Animal Protection Legislation</h2>
+      <p class="lede">Bill summaries in plain language, official status, and a direct link to the legislative record, with the date we last verified each one.</p>
+      <figure class="media legis__media">
+        {% include photo.html id="capitol-mo" sizes="(max-width: 960px) 100vw, 40vw" %}
+        <figcaption class="photo-credit">{% include photo-credit.html id="capitol-mo" %}</figcaption>
+      </figure>
+      <p class="note">Factual legislative information is kept separate from PPA commentary.</p>
+      <a class="btn btn--green" href="{{ '/legislation/' | relative_url }}">Open the legislation tracker <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="legis__list">
+      {%- for r in bills limit: 3 %}
+      {% include bill-card.html r=r compact=true %}
+      {%- else %}
+      <p class="note">Verified legislative records will appear here once they are approved.</p>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- G. RESEARCH & AWARENESS -->
+<section class="section" aria-labelledby="research-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Research &amp; Awareness</p>
+        <h2 id="research-title">Evidence-Based Reporting</h2>
+      </div>
+      <p class="lede">Articles on animal welfare, agricultural practices, and protection initiatives, each with its sources listed.</p>
+    </div>
+    <div class="research-grid">
+      {%- for a in articles limit: 4 %}
+      {%- if forloop.first %}
+      {% include article-card.html a=a feature=true %}
+      {%- else %}
+      {% include article-card.html a=a noimage=true %}
+      {%- endif %}
+      {%- else %}
+      <p class="note" style="grid-column:1/-1">Verified articles will appear here once they are approved.</p>
+      {%- endfor %}
+    </div>
+    <p style="margin-top:2.5rem"><a class="btn btn--outline" href="{{ '/research/' | relative_url }}">Browse all research <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+  </div>
+</section>
+
+<!-- H. CONCLUSION: PHASE ONE RESEARCH AND LEGISLATION -->
+<section class="section section--deep on-dark" aria-labelledby="closing-title">
+  <div class="wrap" style="text-align:center;max-width:860px">
+    <p class="eyebrow">Our Work</p>
+    <h2 id="closing-title">Protection Through Knowledge. Progress Through Action.</h2>
+    <p class="lede">Explore animal-welfare research and selected federal and state legislation. We are starting with farmed animals and building this resource carefully, one verified source at a time.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn btn--gold" href="{{ '/research/' | relative_url }}">Explore research <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn--ghost" href="{{ '/legislation/' | relative_url }}">Follow legislation <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>

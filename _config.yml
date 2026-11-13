@@ -1,0 +1,52 @@
+# Paw Protection Alliance - site settings
+title: Paw Protection Alliance
+short_name: PPA
+tagline: Protecting Every Species. Advancing Animal Welfare.
+org_headline: Protection Through Knowledge. Progress Through Action.
+description: >-
+  Paw Protection Alliance is a developing independent project advancing animal
+  protection through credible research, public education, legislative awareness,
+  and transparent source verification, with a particular commitment to
+  animals raised for food.
+
+# Public address. The repository is pawprotectionalliance.github.io (a root site),
+# so baseurl stays empty.
+url: "https://pawprotectionalliance.org"
+baseurl: ""
+
+# PROTOTYPE SWITCH
+# true  = show the prototype banner and all records marked demo = yes
+# false = hide every demo record and the prototype banner (launch setting)
+demo_mode: false
+
+# Contact form hosted by Tally. Form created by PPA project owner.
+# Form URL: https://tally.so/r/J1poer
+# Check submissions/notifications and privacy notice before public launch.
+tally_form_id: "J1poer"
+
+# Records not verified within this many days are flagged on /data-check/
+stale_after_days: 90
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+
+collections:
+  articles:
+    output: true
+    permalink: /research/:name/
+
+defaults:
+  - scope: { path: "", type: articles }
+    values: { layout: article, author: "Paw Protection Alliance" }   # all research articles are published under the organization
+  - scope: { path: "" }
+    values: { layout: page }
+
+exclude:
+  - README.md
+  - docs
+  - _tools
+  - Gemfile
+  - Gemfile.lock
+  - "*.xlsx"
